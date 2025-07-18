@@ -1,12 +1,18 @@
-# Lab: Building a Front-to-Back Event Catalog
+# Lab: Client-Server Application – Event Catalog
+
+## Overview
+
+This lab demonstrates a simple full-stack application using Flask (Python) as the back end and vanilla HTML/JS as the front end. Users can view a list of events and add new ones using a dynamic form that interacts with the Flask API via HTTP requests.
+
+---
 
 ## Learning Goals
 
-- Serve a homepage using Flask
-- Create API routes that return and accept JSON
-- Handle GET and POST requests on the back end
-- Connect a Flask back end to a static front end
-- Pass all provided back end tests
+- Serve API responses using Flask
+- Handle GET and POST routes with JSON data
+- Connect front-end and back-end using `fetch()`
+- Dynamically render and update the DOM
+- Validate and structure responses with proper status codes
 
 ---
 
@@ -19,29 +25,39 @@ git clone <repo-url>
 cd course-8-module-6-connect-client-server-lab
 ```
 
-### 2. Create Your Environment
+### 2. Create and Activate Your Environment
 
 **Using Pipenv:**
+
 ```bash
 pipenv install
 pipenv shell
 ```
 
+Or use `python -m venv` and `pip install -r requirements.txt` if preferred.
+
 ---
 
-## Running the App
+## Running the Server
 
 ```bash
 python server.py
 ```
 
-Then open `client/index.html` in your browser to view the frontend.
+This starts the Flask API at `http://127.0.0.1:5000`.
+
+---
+
+## Viewing the Front End
+
+Open `client/index.html` using the **Live Server** VSCode extension (or right-click → Open with Live Server).  
+This ensures the JavaScript can make cross-origin requests to the Flask API.
 
 ---
 
 ## Running the Tests
 
-To check your work, run:
+To verify that the back-end API behaves correctly:
 
 ```bash
 pytest
@@ -51,12 +67,38 @@ All tests must pass to complete the lab.
 
 ---
 
-## Your Tasks
+## API Routes
 
-- [ ] Implement the `/` route to return a welcome message in JSON
-- [ ] Implement a `GET /events` route that returns all event data
-- [ ] Implement a `POST /events` route that accepts a new event and returns it with status 201
-- [ ] Return a `400 Bad Request` if required data is missing in a POST
+### `GET /`
+
+Returns a JSON welcome message.
+
+### `GET /events`
+
+Returns a list of all events in JSON format.
+
+### `POST /events`
+
+Accepts a JSON payload with a `"title"` key. Returns the newly created event with status `201`.
+
+#### Example Payload
+
+```json
+{
+  "title": "New Event"
+}
+```
+
+#### Example Response
+
+```json
+{
+  "id": 3,
+  "title": "New Event"
+}
+```
+
+If the `"title"` key is missing, a `400 Bad Request` is returned.
 
 ---
 
@@ -66,16 +108,27 @@ All tests must pass to complete the lab.
 .
 ├── client/
 │   ├── index.html
-│   ├── styles.css
-│   └── script.js
+│   ├── script.js
+│   └── styles.css
 ├── server.py
 ├── tests/
 │   └── test_app.py
 ├── Pipfile
 ├── Pipfile.lock
-├── README.md
+└── README.md
 ```
 
 ---
 
-Good luck! 🚀
+## Notes
+
+- The app uses in-memory Python lists to simulate a database.
+- All events reset when the server restarts.
+- Live Server is required to test full front-end functionality locally.
+
+---
+
+## Author
+
+Andrew Snyder  
+Flatiron School
